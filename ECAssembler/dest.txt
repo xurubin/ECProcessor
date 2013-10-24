@@ -1,0 +1,84 @@
+	8'd0:	code <= 11'b00011111111; //		ldo r15 , r15
+	8'd1:	code <= 11'b00100001111; //		sub r15		//initialise zero in r15 
+	8'd2:	code <= 11'b00101111111; //		adrld r15	
+	8'd3:	code <= 11'b00101011110; //		memrd r14	//load (-a) from 0x0 to r14
+	8'd4:	code <= 11'b10000010011; //		setflg if, one	//initialise if(infinity_flag)
+	8'd5:	code <= 11'b00011111111; //		ldo r15,r15
+	8'd6:	code <= 11'b00100110000; //		mov r0		//initilise store [g,k,PX,PY] = [r0,r1,r2,r3]
+	8'd7:	code <= 11'b00100110001; //		mov r1
+	8'd8:	code <= 11'b00100110010; //		mov r2
+	8'd9:	code <= 11'b00100110011; //		mov r3
+	8'd10:	code <= 11'b00101011010; //@loadPts	memrd r10	//load [g,k,PX,PY] to [r10,r11,r12,r13]
+	8'd11:	code <= 11'b11000000001; //		adrinc 1
+	8'd12:	code <= 11'b00101011011; //		memrd r11
+	8'd13:	code <= 11'b11000000001; //		adrinc 1
+	8'd14:	code <= 11'b00101011100; //		memrd r12
+	8'd15:	code <= 11'b11000000001; //		adrinc 1
+	8'd16:	code <= 11'b00101011101; //		memrd r13
+	8'd17:	code <= 11'b00010101010; //		ldo r10, r15	//EC Point Addition [r0,r1,r2,r3,if] += [r10,r11,r12,r13]
+	8'd18:	code <= 11'b00100001010; //		sub r10		//[r0,r1]+=[r10,r11]
+	8'd19:	code <= 11'b00000000000; //		ldo r0, r10
+	8'd20:	code <= 11'b00100000000; //		sub r0
+	8'd21:	code <= 11'b00010111011; //		ldo r11, r15
+	8'd22:	code <= 11'b00100001011; //		sub r11
+	8'd23:	code <= 11'b00000010001; //		ldo r1, r11
+	8'd24:	code <= 11'b00100000001; //		sub r1
+	8'd25:	code <= 11'b10000110010; //		setflg zf,if
+	8'd26:	code <= 11'b01000000111; //		jz p_ni		//jmp if if=0
+	8'd27:	code <= 11'b00011001100; //		ldo r12, r12	//[r0..] is inifinity, easy job
+	8'd28:	code <= 11'b00100110010; //		mov r2
+	8'd29:	code <= 11'b00011011101; //		ldo r13,r13
+	8'd30:	code <= 11'b00100110011; //		mov r3
+	8'd31:	code <= 11'b10000000011; //		setflg if, zero
+	8'd32:	code <= 11'b01100110011; //		jnz ADD_DONE
+	8'd33:	code <= 11'b00000100010; //@p_ni		ldo r2, r12	//(p_x, q_x) Normal Add, still need to check if result is inf or double
+	8'd34:	code <= 11'b00100000100; //		sub r4 		//(r4 = p_x - q_x)
+	8'd35:	code <= 11'b00101000100; //		tstz r4		//p_x-q_x
+	8'd36:	code <= 11'b01000001000; //		jz DOUBLE_PRE
+	8'd37:	code <= 11'b00001000100; //		ldo r4,r4	
+	8'd38:	code <= 11'b00100100100; //		inv r4 		//r4 = (p_x-q_x)^(-1)
+	8'd39:	code <= 11'b00000110011; //		ldo r3, r13 	//(p_y, q_y)
+	8'd40:	code <= 11'b00100000101; //		sub r5 		//r5 = p_y - q_y
+	8'd41:	code <= 11'b00001000100; //		ldo r4, r5 	//[(p_x-q_x)^(-1), p_y - q_y]
+	8'd42:	code <= 11'b00100010100; //		mul r4 		//r4 = s = (p_y - q_y)/(p_x-q_x)
+	8'd43:	code <= 11'b01100011010; //		jnz COMMON
+	8'd44:	code <= 11'b00000110011; //@DOUBLE_PRE	ldo r3, r13 	//(p_y, q_y)
+	8'd45:	code <= 11'b00100000100; //		sub r4		//r4 = p_y - q_y
+	8'd46:	code <= 11'b00101000100; //		tstz r4		//p_y - q_y
+	8'd47:	code <= 11'b01000000110; //		jz DOUBLE
+	8'd48:	code <= 11'b10000010011; //@R_INF		setflg if, one	//result is infinity
+	8'd49:	code <= 11'b00011111111; //		ldo r15, r15
+	8'd50:	code <= 11'b00100110010; //		mov r2
+	8'd51:	code <= 11'b00100110011; //		mov r3
+	8'd52:	code <= 11'b01100011111; //		jnz ADD_DONE
+	8'd53:	code <= 11'b00011111111; //@DOUBLE		ldo r15, r13	//(0, q_y)
+	8'd54:	code <= 11'b00100000100; //		sub r4		//r4 = -q_y
+	8'd55:	code <= 11'b00011011101; //		ldo r13, r4	//(q_y, -q_y)
+	8'd56:	code <= 11'b00100000011; //		sub r3		//r3 = q_y - (-q_y) = 2y
+	8'd57:	code <= 11'b00100100011; //		inv r3		//r3 = (2y)^(-1)
+	8'd58:	code <= 11'b00011001100; //		ldo r12, r12	//(q_x, q_x)
+	8'd59:	code <= 11'b00100010101; //		mul r5		//r5 =q_x^2
+	8'd60:	code <= 11'b00011111111; //		ldo r15, r5	//(0, q_x^2)
+	8'd61:	code <= 11'b00100000100; //		sub r4		//r4 = -x^2
+	8'd62:	code <= 11'b00001010101; //		ldo r5, r4	//(x^2, -x^2)
+	8'd63:	code <= 11'b00100000101; //		sub r5		//r5 = 2*x^2
+	8'd64:	code <= 11'b00100000101; //		sub r5		//r5 = 3*x^2
+	8'd65:	code <= 11'b00001010101; //		ldo r5, r14	//(3x^2, -A)
+	8'd66:	code <= 11'b00100000100; //		sub r4		//r4 = 3x^2+A
+	8'd67:	code <= 11'b00000110011; //		ldo r3, r4	//(2y^-1, 3x^2+A)
+	8'd68:	code <= 11'b00100010100; //		mul r4		//r4 = s = (3x^2+A)/2y;
+	8'd69:	code <= 11'b00001000100; //@COMMON		ldo r4, r4	//(s, s)
+	8'd70:	code <= 11'b00100010101; //		mul r5		//r5 = s*s
+	8'd71:	code <= 11'b00001010101; //		ldo r5, r2	//s^2, p_x
+	8'd72:	code <= 11'b00100000101; //		sub r5		//r5 = s^2-px
+	8'd73:	code <= 11'b00001010101; //		ldo r5, r12	//s^2-px, qx
+	8'd74:	code <= 11'b00100000010; //		sub r2		//r2 = s^2-px-qx 		<== X
+	8'd75:	code <= 11'b00000100010; //		ldo r2, r12	//X, qx
+	8'd76:	code <= 11'b00100000011; //		sub r3		//r3 = X-qx
+	8'd77:	code <= 11'b00000110011; //		ldo r3, r4	//X-qx, s
+	8'd78:	code <= 11'b00100010011; //		mul r3		//r3 = s*(X-qx)
+	8'd79:	code <= 11'b00011111111; //		ldo r15, r13	//0, qy 
+	8'd80:	code <= 11'b00100000100; //		sub r4		//r4 = -qy
+	8'd81:	code <= 11'b00001000100; //		ldo r4, r3	//-qy, s*(X-qx)
+	8'd82:	code <= 11'b00100000011; //		sub r3		//r3 = -[py+s*(X-px)]	<== Y
+	8'd83:	code <= 11'b00101000000; //@ADD_DONE	tstz r0

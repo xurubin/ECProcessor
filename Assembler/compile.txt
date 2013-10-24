@@ -1,0 +1,42 @@
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r0\)/\1000\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r1\)/\1001\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r2\)/\1010\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r3\)/\1011\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r4\)/\1100\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r5\)/\1101\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r6\)/\1110\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r7\)/\1111\2/
+s/\(8'bxxxxx\)xxx\(;.*ldo r[0-7], r?\)/\1xxx\2/
+
+
+s/\(8'b\)xxxxx\(.*ldo r0\)/\100000\2/
+s/\(8'b\)xxxxx\(.*ldo r1\)/\100001\2/
+s/\(8'b\)xxxxx\(.*ldo r2\)/\100010\2/
+s/\(8'b\)xxxxx\(.*ldo r3\)/\100011\2/
+s/\(8'b\)xxxxx\(.*ldo r4\)/\100100\2/
+s/\(8'b\)xxxxx\(.*ldo r5\)/\100101\2/
+s/\(8'b\)xxxxx\(.*ldo r6\)/\100110\2/
+s/\(8'b\)xxxxx\(.*ldo r7\)/\100111\2/
+s/\(8'b\)xxxxx\(.*ldo r?\)/\100xxb\2/
+
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r0\)/\1000\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r1\)/\1001\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r2\)/\1010\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r3\)/\1011\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r4\)/\1100\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r5\)/\1101\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r6\)/\1110\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r7\)/\1111\2/
+s/\(8'bxxxxx\)xxx\(;.*[mul|inv|sub|tstz] r\?\)/\1xxx\2/
+
+s/\(8'b\)xxxxx\(.*sub r\)/\101000\2/
+s/\(8'b\)xxxxx\(.*mul r\)/\101001\2/
+s/\(8'b\)xxxxx\(.*inv r\)/\101010\2/
+s/\(8'b\)xxxxx\(.*mov r\)/\101011\2/
+s/\(8'b\)xxxxx\(.*tstz r\)/\101100\2/
+
+s/\(8'b\)xx\(.*jz\)/\110\2/
+s/\(8'b\)xx\(.*jnz\)/\111\2/
+
+s/\(8'b\)xxxxxxxx\(;.*return true\)/\111000000\2/
+s/\(8'b\)xxxxxxxx\(;.*return false\)/\110000000\2/

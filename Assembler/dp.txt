@@ -1,0 +1,14 @@
+# Kangaroo:DP found after  16 iterations
+# Kangaroo:DP found after  30 iterations
+# Kangaroo:DP found after  19 iterations
+# Kangaroo:DP found after  22 iterations
+# Kangaroo:DP found after  32 iterations
+# Kangaroo:DP found after  41 iterations
+# Kangaroo:DP found after  12 iterations
+# Kangaroo:DP found after   3 iterations
+# Kangaroo:DP found after   0 iterations
+# Kangaroo:DP found after  18 iterations
+# Kangaroo:DP found after   1 iterations
+# Kangaroo:DP found after  16 iterations
+# Kangaroo:DP found after  32 iterations
+# Kangaroo:DP found after  19 iterations
